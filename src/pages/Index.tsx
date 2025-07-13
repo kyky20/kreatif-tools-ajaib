@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "@/components/ui/navbar";
+import Lottie from "lottie-react";
+import aiAnimation from "@/assets/animations/ai.json";
 import {
   Card,
   CardContent,
@@ -239,6 +241,13 @@ const Index = () => {
               KreasIA
             </h1>
           </div>
+          <div className="flex justify-center mt-4 mb-6">
+            <Lottie
+              animationData={aiAnimation}
+              loop={true}
+              className="w-48 h-48"
+            />
+          </div>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             Kumpulan tools AI untuk membantu content creator, marketer, dan
             entrepreneur Indonesia
@@ -276,9 +285,15 @@ const Index = () => {
                 </CardHeader>
                 <CardContent>
                   <Button
-                    className={`w-full bg-gradient-to-r ${tool.color} hover:opacity-90 text-white border-0`}
+                    className={`w-full bg-gradient-to-r ${tool.color} hover:opacity-90 text-white border-0 flex items-center justify-center gap-2`}
                   >
-                    <Wand2 className="mr-2 h-4 w-4" /> Mulai Generate
+                    <Lottie
+                      animationData={aiAnimation}
+                      loop
+                      autoplay
+                      className="w-6 h-6"
+                    />
+                    Mulai Generate
                   </Button>
                 </CardContent>
               </Card>
@@ -335,16 +350,22 @@ const Index = () => {
                   <Button
                     onClick={handleGenerate}
                     disabled={loading || !input.trim()}
-                    className={`w-full bg-gradient-to-r ${selectedTool.color} hover:opacity-90 text-white border-0 disabled:opacity-50`}
+                    className={`w-full bg-gradient-to-r ${selectedTool.color} hover:opacity-90 text-white border-0 disabled:opacity-50 flex items-center justify-center gap-2`}
                   >
                     {loading ? (
                       <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
                         Generating...
                       </>
                     ) : (
                       <>
-                        <Wand2 className="mr-2 h-4 w-4" /> Generate Konten
+                        <Lottie
+                          animationData={aiAnimation}
+                          loop
+                          autoplay
+                          className="w-6 h-6"
+                        />
+                        Generate Konten
                       </>
                     )}
                   </Button>
@@ -393,7 +414,7 @@ const Index = () => {
       <footer className="border-t border-white/10 bg-black/20">
         <div className="container mx-auto px-4 py-8 text-center">
           <p className="text-gray-400">
-            © 2024 KreasIA. Dibuat dengan ❤️ untuk komunitas creator Indonesia.
+            © 2025 KreasIA. Dibuat dengan ❤️ untuk komunitas creator Indonesia.
           </p>
         </div>
       </footer>
