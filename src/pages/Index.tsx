@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "@/components/ui/navbar";
 import Lottie from "lottie-react";
 import aiAnimation from "@/assets/animations/ai.json";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Card,
   CardContent,
@@ -91,7 +92,7 @@ const tools: Tool[] = [
   {
     id: "clickbait-title",
     title: "Judul Clickbait Menarik",
-    description: "Generate judul yang menarik perhatian",
+    description: "Generate judul yang menarik perhatian dan berpotensi viral",
     icon: <MousePointer className="h-6 w-6" />,
     emoji: "🧲",
     prompt:
@@ -127,7 +128,7 @@ const tools: Tool[] = [
   {
     id: "email-improvement",
     title: "Perbaikan Email Bahasa Inggris",
-    description: "Perbaiki email agar lebih profesional",
+    description: "Perbaiki email agar lebih formal dan profesional",
     icon: <Mail className="h-6 w-6" />,
     emoji: "📧",
     prompt:
@@ -184,7 +185,6 @@ const Index = () => {
       );
 
       const data = await response.json();
-      console.log("Data dari Gemini:", data);
       if (!data || !Array.isArray(data.candidates)) {
         throw new Error("Format respons Gemini tidak sesuai.");
       }
@@ -226,196 +226,232 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <Navbar />
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20 blur-3xl"></div>
-        <div className="relative container mx-auto px-4 pt-20 pb-16 text-center">
-          <div className="inline-flex items-center gap-2 mb-4">
-            <img
-              src="/icon.png"
-              alt="Icon"
-              className="h-12 w-12 text-purple-400"
-            />
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-              KreasIA
-            </h1>
-          </div>
-          <div className="flex justify-center mt-4 mb-6">
-            <Lottie
-              animationData={aiAnimation}
-              loop={true}
-              className="w-48 h-48"
-            />
-          </div>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Kumpulan tools AI untuk membantu content creator, marketer, dan
-            entrepreneur Indonesia
-          </p>
-          <Badge
-            variant="secondary"
-            className="text-sm px-4 py-2 bg-white/10 text-white border-white/20"
-          >
-            8 Tools Powerful • 100% Gratis
-          </Badge>
-        </div>
-      </div>
-
-      <div className="container mx-auto px-4 pb-16">
-        {!selectedTool ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {tools.map((tool) => (
-              <Card
-                key={tool.id}
-                className="group cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl bg-white/5 border-white/10 backdrop-blur-sm hover:bg-white/10"
-                onClick={() => setSelectedTool(tool)}
-              >
-                <CardHeader className="text-center">
-                  <div
-                    className={`mx-auto w-16 h-16 rounded-full bg-gradient-to-r ${tool.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
-                  >
-                    <span className="text-2xl">{tool.emoji}</span>
+      <main className="flex-1">
+        <div className="relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20 blur-3xl"></div>
+          <div className="relative container mx-auto px-4 pt-24 pb-16 text-center">
+            <AnimatePresence>
+              {!selectedTool && (
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <div className="inline-flex items-center gap-2 mb-4 justify-center flex-wrap">
+                    <img
+                      src="/icon.png"
+                      alt="Icon"
+                      className="h-12 w-12 text-purple-400"
+                    />
+                    <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                      KreasIA
+                    </h1>
                   </div>
-                  <CardTitle className="text-white text-lg">
-                    {tool.title}
-                  </CardTitle>
-                  <CardDescription className="text-gray-300">
-                    {tool.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button
-                    className={`w-full bg-gradient-to-r ${tool.color} hover:opacity-90 text-white border-0 flex items-center justify-center gap-2`}
-                  >
+                  <div className="flex justify-center mt-4 mb-6">
                     <Lottie
                       animationData={aiAnimation}
-                      loop
-                      autoplay
-                      className="w-6 h-6"
+                      loop={true}
+                      className="w-40 h-40 md:w-48 md:h-48"
                     />
-                    Mulai Generate
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
+                  </div>
+                  <p className="text-base md:text-xl text-gray-300 mb-6 md:mb-8 max-w-2xl mx-auto px-4">
+                    Kumpulan tools AI untuk membantu content creator, marketer,
+                    dan entrepreneur Indonesia
+                  </p>
+                  <Badge
+                    variant="secondary"
+                    className="text-sm px-4 py-2 bg-white/10 text-white border-white/20"
+                  >
+                    8 Tools Powerful • 100% Gratis
+                  </Badge>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-        ) : (
-          <div className="max-w-4xl mx-auto">
-            <Card className="bg-white/5 border-white/10 backdrop-blur-sm mb-6">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div
-                      className={`w-12 h-12 rounded-full bg-gradient-to-r ${selectedTool.color} flex items-center justify-center`}
+        </div>
+
+        <div className="container mx-auto px-4 pb-24">
+          <AnimatePresence mode="wait">
+            {!selectedTool ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {tools.map((tool, index) => (
+                  <motion.div
+                    key={tool.id}
+                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{
+                      duration: 0.4,
+                      delay: index * 0.05,
+                      ease: "easeOut",
+                    }}
+                  >
+                    <Card
+                      className="group cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl bg-white/5 border-white/10 backdrop-blur-sm hover:bg-white/10"
+                      onClick={() => setSelectedTool(tool)}
                     >
-                      <span className="text-xl">{selectedTool.emoji}</span>
-                    </div>
-                    <div>
-                      <CardTitle className="text-white text-2xl">
-                        {selectedTool.title}
-                      </CardTitle>
-                      <CardDescription className="text-gray-300">
-                        {selectedTool.description}
-                      </CardDescription>
-                    </div>
-                  </div>
-                  <Button
-                    variant="outline"
-                    onClick={handleReset}
-                    className="border-white/20 bg-transparent text-white hover:bg-white/10 flex items-center gap-2"
-                  >
-                    <ArrowLeft className="w-4 h-4" /> Kembali
-                  </Button>
-                </div>
-              </CardHeader>
-            </Card>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
-                <CardHeader>
-                  <CardTitle className="text-white">Input</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <label className="text-sm font-medium text-gray-300 mb-2 block">
-                      {selectedTool.inputLabel}
-                    </label>
-                    <Textarea
-                      placeholder={selectedTool.placeholder}
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      className="min-h-[200px] bg-white/5 border-white/10 text-white placeholder:text-gray-400"
-                    />
-                  </div>
-                  <Button
-                    onClick={handleGenerate}
-                    disabled={loading || !input.trim()}
-                    className={`w-full bg-gradient-to-r ${selectedTool.color} hover:opacity-90 text-white border-0 disabled:opacity-50 flex items-center justify-center gap-2`}
-                  >
-                    {loading ? (
-                      <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
-                        Generating...
-                      </>
-                    ) : (
-                      <>
-                        <Lottie
-                          animationData={aiAnimation}
-                          loop
-                          autoplay
-                          className="w-6 h-6"
-                        />
-                        Generate Konten
-                      </>
-                    )}
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-white">Output</CardTitle>
-                    {output && !loading && (
-                      <Button
-                        onClick={handleCopy}
-                        variant="outline"
-                        size="sm"
-                        className="border-white/20 bg-transparent text-white hover:bg-white/10"
-                      >
-                        <Copy className="h-4 w-4 mr-2" /> Copy
-                      </Button>
-                    )}
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="bg-black/20 rounded-lg p-4 min-h-[200px] flex items-center justify-center">
-                    {loading && (
-                      <div className="text-gray-400">Sedang memproses...</div>
-                    )}
-                    {!loading && !output && (
-                      <div className="text-gray-400">
-                        Hasil akan muncul di sini..
+                      <CardHeader className="text-center">
+                        <div
+                          className={`mx-auto w-16 h-16 rounded-full bg-gradient-to-r ${tool.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
+                        >
+                          <span className="text-2xl">{tool.emoji}</span>
+                        </div>
+                        <CardTitle className="text-white text-lg">
+                          {tool.title}
+                        </CardTitle>
+                        <CardDescription className="text-gray-300">
+                          {tool.description}
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <Button
+                          className={`w-full bg-gradient-to-r ${tool.color} hover:opacity-90 text-white border-0 flex items-center justify-center gap-2`}
+                        >
+                          <Lottie
+                            animationData={aiAnimation}
+                            loop
+                            autoplay
+                            className="w-6 h-6"
+                          />
+                          Mulai Generate
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            ) : (
+              <motion.div
+                key="input-output"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className="max-w-4xl mx-auto"
+              >
+                <div className="max-w-4xl mx-auto">
+                  <Card className="bg-white/5 border-white/10 backdrop-blur-sm mb-6">
+                    <CardHeader>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div
+                            className={`w-12 h-12 rounded-full bg-gradient-to-r ${selectedTool.color} flex items-center justify-center`}
+                          >
+                            <span className="text-xl">
+                              {selectedTool.emoji}
+                            </span>
+                          </div>
+                          <div>
+                            <CardTitle className="text-white text-2xl">
+                              {selectedTool.title}
+                            </CardTitle>
+                            <CardDescription className="text-gray-300">
+                              {selectedTool.description}
+                            </CardDescription>
+                          </div>
+                        </div>
+                        <Button
+                          variant="outline"
+                          onClick={handleReset}
+                          className="border-white/20 bg-transparent text-white hover:bg-white/10 flex items-center gap-2"
+                        >
+                          <ArrowLeft className="w-4 h-4" /> Kembali
+                        </Button>
                       </div>
-                    )}
-                    {output && (
-                      <pre className="text-gray-300 whitespace-pre-wrap text-sm">
-                        {output}
-                      </pre>
-                    )}
+                    </CardHeader>
+                  </Card>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+                      <CardHeader>
+                        <CardTitle className="text-white">Input</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div>
+                          <label className="text-sm font-medium text-gray-300 mb-2 block">
+                            {selectedTool.inputLabel}
+                          </label>
+                          <Textarea
+                            placeholder={selectedTool.placeholder}
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            className="min-h-[200px] bg-white/5 border-white/10 text-white placeholder:text-gray-400"
+                          />
+                        </div>
+                        <Button
+                          onClick={handleGenerate}
+                          disabled={loading || !input.trim()}
+                          className={`w-full bg-gradient-to-r ${selectedTool.color} hover:opacity-90 text-white border-0 disabled:opacity-50 flex items-center justify-center gap-2`}
+                        >
+                          {loading ? (
+                            <>
+                              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
+                              Generating...
+                            </>
+                          ) : (
+                            <>
+                              <Lottie
+                                animationData={aiAnimation}
+                                loop
+                                autoplay
+                                className="w-6 h-6"
+                              />
+                              Generate Konten
+                            </>
+                          )}
+                        </Button>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+                      <CardHeader>
+                        <div className="flex items-center justify-between">
+                          <CardTitle className="text-white">Output</CardTitle>
+                          {output && !loading && (
+                            <Button
+                              onClick={handleCopy}
+                              variant="outline"
+                              size="sm"
+                              className="border-white/20 bg-transparent text-white hover:bg-white/10"
+                            >
+                              <Copy className="h-4 w-4 mr-2" /> Copy
+                            </Button>
+                          )}
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="bg-black/20 rounded-lg p-4 min-h-[200px] flex items-center justify-center">
+                          {loading && (
+                            <div className="text-gray-400">
+                              Sedang memproses...
+                            </div>
+                          )}
+                          {!loading && !output && (
+                            <div className="text-gray-400">
+                              Hasil akan muncul di sini..
+                            </div>
+                          )}
+                          {output && (
+                            <pre className="text-gray-300 whitespace-pre-wrap text-sm">
+                              {output}
+                            </pre>
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
                   </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        )}
-      </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </main>
 
       <footer className="border-t border-white/10 bg-black/20">
         <div className="container mx-auto px-4 py-8 text-center">
-          <p className="text-gray-400">
-            © 2025 KreasIA. Dibuat dengan ❤️ untuk komunitas creator Indonesia.
-          </p>
+          <p className="text-gray-400">© 2025 KreasIA. All rights reserved.</p>
         </div>
       </footer>
     </div>
