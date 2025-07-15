@@ -12,6 +12,8 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Copy, ArrowLeft } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import Lottie from "lottie-react";
+import aiAnimation from "@/assets/animations/ai.json";
 
 const Telusuri = () => {
   const [selectedTool, setSelectedTool] = useState(null);
@@ -129,6 +131,12 @@ const Telusuri = () => {
                       <Button
                         className={`w-full bg-gradient-to-r ${tool.color} hover:opacity-90 text-white border-0`}
                       >
+                        <Lottie
+                          animationData={aiAnimation}
+                          loop
+                          autoplay
+                          className="w-6 h-6"
+                        />
                         Mulai Gunakan
                       </Button>
                     </CardContent>
@@ -196,7 +204,15 @@ const Telusuri = () => {
                           Generating...
                         </>
                       ) : (
-                        <>Generate Konten</>
+                        <>
+                          <Lottie
+                            animationData={aiAnimation}
+                            loop
+                            autoplay
+                            className="w-6 h-6"
+                          />
+                          Generate Konten
+                        </>
                       )}
                     </Button>
                   </CardContent>
