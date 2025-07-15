@@ -3,6 +3,7 @@ import Navbar from "@/components/ui/navbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Daftar = () => {
   const [form, setForm] = useState({
@@ -35,7 +36,9 @@ const Daftar = () => {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block mb-2 text-sm text-gray-300">Nama Lengkap</label>
+              <label className="block mb-2 text-sm text-gray-300">
+                Nama Lengkap
+              </label>
               <Input
                 type="text"
                 name="nama"
@@ -61,7 +64,9 @@ const Daftar = () => {
             </div>
 
             <div>
-              <label className="block mb-2 text-sm text-gray-300">Kata Sandi</label>
+              <label className="block mb-2 text-sm text-gray-300">
+                Kata Sandi
+              </label>
               <div className="relative">
                 <Input
                   type={showPassword ? "text" : "password"}
@@ -93,9 +98,9 @@ const Daftar = () => {
 
           <p className="mt-6 text-center text-sm text-gray-400">
             Sudah punya akun?{" "}
-            <a href="/masuk" className="text-pink-400 hover:underline">
+            <Link to="/masuk" className="text-pink-400 hover:underline">
               Masuk di sini
-            </a>
+            </Link>
           </p>
         </div>
       </main>

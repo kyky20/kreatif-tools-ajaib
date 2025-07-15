@@ -3,6 +3,7 @@ import Navbar from "@/components/ui/navbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Masuk = () => {
   const [email, setEmail] = useState("");
@@ -38,7 +39,9 @@ const Masuk = () => {
             </div>
 
             <div>
-              <label className="block mb-2 text-sm text-gray-300">Password</label>
+              <label className="block mb-2 text-sm text-gray-300">
+                Password
+              </label>
               <div className="relative">
                 <Input
                   type={showPassword ? "text" : "password"}
@@ -69,9 +72,9 @@ const Masuk = () => {
 
           <p className="mt-6 text-center text-sm text-gray-400">
             Belum punya akun?{" "}
-            <a href="/daftar" className="text-pink-400 hover:underline">
+            <Link to="/daftar" className="text-pink-400 hover:underline">
               Daftar di sini
-            </a>
+            </Link>
           </p>
         </div>
       </main>

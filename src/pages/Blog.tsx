@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "@/components/ui/navbar";
+import { Link } from "react-router-dom";
 
 const Blog = () => {
   return (
@@ -39,9 +40,9 @@ const Blog = () => {
 
               <p>
                 Jangan lupa eksplorasi juga berbagai{" "}
-                <a href="/telusuri" className="text-purple-400 underline">
+                <Link to="/telusuri" className="text-purple-400 underline">
                   tools AI
-                </a>{" "}
+                </Link>{" "}
                 yang kami sediakan, dirancang untuk membuat proses kreatifmu
                 jadi lebih cepat dan menyenangkan.
               </p>
