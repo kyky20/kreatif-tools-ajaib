@@ -241,11 +241,11 @@ const Index = () => {
                   transition={{ duration: 0.5 }}
                 >
                   <div className="inline-flex items-center gap-2 mb-4 justify-center flex-wrap">
-                    <img
+                    {/* <img
                       src="/icon.png"
                       alt="Icon"
                       className="h-12 w-12 text-purple-400"
-                    />
+                    /> */}
                     <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                       KreasIA
                     </h1>
