@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import Navbar from "@/components/ui/navbar";
 import Lottie from "lottie-react";
 import aiAnimation from "@/assets/animations/ai.json";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import { supabase } from "@/lib/supabase";
 import {
   Card,
   CardContent,
@@ -140,12 +143,38 @@ const tools: Tool[] = [
 ];
 
 const Index = () => {
-  const [selectedTool, setSelectedTool] = useState<Tool | null>(null);
+  const navigate = useNavigate();
+
+  const [generateCount, setGenerateCount] = useState(0);
+  const [selectedTool, setSelectedTool] = useState<any>(null);
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Ambil count dari localStorage saat awal
+  useEffect(() => {
+    const savedCount = localStorage.getItem("generateCount");
+    if (savedCount) {
+      setGenerateCount(Number(savedCount));
+    }
+  }, []);
+
   const handleGenerate = async () => {
+    // Check generate limit (5 kali)
+    const count = parseInt(localStorage.getItem("generate_count") || "0");
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (count >= 5 && !user) {
+      toast({
+        title: "Login Diperlukan",
+        description:
+          "Anda telah mencapai batas limit generate. Silakan login untuk melanjutkan.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (!selectedTool || !input.trim()) {
       toast({
         title: "Error",
@@ -185,21 +214,19 @@ const Index = () => {
       );
 
       const data = await response.json();
-      if (!data || !Array.isArray(data.candidates)) {
-        throw new Error("Format respons Gemini tidak sesuai.");
-      }
       const result =
         data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ||
         "Tidak ada hasil dari Gemini.";
-
       setOutput(result);
+
+      // Tambah count ke localStorage
+      localStorage.setItem("generate_count", (count + 1).toString());
 
       toast({
         title: "Sukses!",
         description: "Konten berhasil dihasilkan oleh AI.",
       });
     } catch (error) {
-      console.error("API Error:", error);
       toast({
         title: "Gagal",
         description: "Terjadi kesalahan saat koneksi ke API Gemini.",
